@@ -88,7 +88,7 @@ const Character = ({name, sprite, startX, startY} : CharacterProps) => {
     }
 
     return (
-        <img src={userImage} style={{position: 'absolute', 'top': y, 'left': x}}/ on>
+        <img src={userImage} style={{position: 'absolute', 'top': y, 'left': x}} >
     )
 
 }
