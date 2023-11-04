@@ -31,7 +31,7 @@ const Character = ({name, sprite, startX, startY} : CharacterProps) => {
         setTimeout(() => {
             if (currentKey === 'ArrowUp') {
                 setDirection('backward');
-                if ()
+                
                 setY(y - 10);
             } else if (currentKey === 'ArrowDown') {
                 setDirection('forward');
@@ -88,7 +88,7 @@ const Character = ({name, sprite, startX, startY} : CharacterProps) => {
     }
 
     return (
-        <img src={userImage} style={{position: 'absolute', 'top': y, 'left': x}} >
+        <img src={userImage} style={{position: 'absolute', 'top': y, 'left': x}} />
     )
 
 }
