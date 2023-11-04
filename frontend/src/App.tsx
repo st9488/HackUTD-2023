@@ -11,9 +11,7 @@ function App() {
     <Router>
     <Routes>
       <Route path="/" element={<SpritePage />}></Route>
-      <Route path="/kanban" element={<KanbanPage />} />
-      
-      
+      <Route path="/kanban" element={<KanbanPage />} />      
     </Routes>
   </Router>
 
