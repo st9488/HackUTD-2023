@@ -49,7 +49,7 @@ function KanbanLane({
 
   const useStyle = {
     Button: {
-        backgroundColor: '#E5F4FF',
+        backgroundColor: '#eee4f7',
         color: 'black',
         justifyContent: 'center',
         textAlign: 'center',
@@ -58,7 +58,7 @@ function KanbanLane({
         boxShadow: '2px 2px 2px #D0D0D0',
         
       "&:hover": {
-        backgroundColor: "#A9DAFF !important",
+        backgroundColor: "#dbbff4 !important",
         color: 'black',
         boxShadow: "2px 2px 2px #D0D0D0 !important",
       },
@@ -140,7 +140,7 @@ function KanbanLane({
         </Button>
         )}
       </div>
-      <div style={{display: 'flex', flexDirection: 'column', flexGrow: 1, paddingBottom: 10}}>
+      <div style={{display: 'flex', flexDirection: 'column', flexGrow: 1, paddingBottom: 10, margin: 5}}>
         <SortableContext items={tasksIds}>
           {tasks.map((task) => (
             <KanbanCard

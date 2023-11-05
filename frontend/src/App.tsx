@@ -9,7 +9,7 @@ function App() {
 
   const useStyle = {
     Button: {
-        backgroundColor: '#E5F4FF',
+        backgroundColor: '#eee4f7',
         color: 'black',
         position: 'fixed', 
         left: 50, 
@@ -17,7 +17,7 @@ function App() {
         boxShadow: '1px 1px 1px #D0D0D0',
         
       "&:hover": {
-        backgroundColor: "#A9DAFF !important",
+        backgroundColor: "#dbbff4 !important",
         color: 'black',
         boxShadow: "'1px 1px 1px #D0D0D0' !important",
       },

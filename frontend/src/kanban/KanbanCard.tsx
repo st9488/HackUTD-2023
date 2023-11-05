@@ -56,7 +56,7 @@ function KanbanCard({ task, deleteTask, updateTask }: Props) {
 
   const useStyle = {
     Button: {
-        backgroundColor: '#E5F4FF',
+        backgroundColor: '#eee4f7',
         color: 'black',
         justifyContent: 'center',
         textAlign: 'center',
@@ -65,7 +65,7 @@ function KanbanCard({ task, deleteTask, updateTask }: Props) {
         boxShadow: '1px 1px 1px #D0D0D0',
         
       "&:hover": {
-        backgroundColor: "#A9DAFF !important",
+        backgroundColor: "#dbbff4 !important",
         color: 'black',
         boxShadow: "'1px 1px 1px #D0D0D0' !important",
       },

@@ -19,6 +19,7 @@ import KanbanCard from "./KanbanCard";
 import {Container, Grid} from '@mui/material';
 import { Button } from "@mui/material";
 import setColumn from "../api/setColumn";
+import backgroundO from "../kanban/KanbanBackground2.png";
 
 interface KanbanBoardProps {
   columns: Column[];
@@ -48,16 +49,16 @@ function KanbanBoard({columns, tasks, setTasks, setColumns}: KanbanBoardProps) {
 
   const useStyle = {
     Button: {
-        backgroundColor: '#E5F4FF',
+        backgroundColor: '#eee4f7',
         color: 'black',
         justifyContent: 'center',
         textAlign: 'center',
         padding: '10px',
         boxShadow: '2px 2px 2px #D0D0D0',
-        width: '30%',
+        width: '40%',
         
       "&:hover": {
-        backgroundColor: "#A9DAFF !important",
+        backgroundColor: "#dbbff4 !important",
         color: 'black',
         boxShadow: "'2px 2px 2px #D0D0D0' !important",
       },
@@ -69,7 +70,7 @@ function KanbanBoard({columns, tasks, setTasks, setColumns}: KanbanBoardProps) {
   };
 
   return (
-    // <Container style={{display: 'flex', justifyContent: 'center', alignContent: 'center', flexDirection: 'column', margin: 10}}>
+    <Container style={{background: `url(${backgroundO})`, width: '300vw', zIndex: -999}}>
       <DndContext
         sensors={sensors}
         onDragStart={onDragStart}
@@ -127,7 +128,7 @@ function KanbanBoard({columns, tasks, setTasks, setColumns}: KanbanBoardProps) {
           document.body
         )}
       </DndContext>
-    // </Container>
+    </Container>
   );
 
   function createTask(columnId: Id) {
