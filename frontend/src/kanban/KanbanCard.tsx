@@ -5,9 +5,12 @@ import { GrUpdate } from 'react-icons/gr';
 import { Id, Task } from "../kanban/types";
 import { useSortable } from "@dnd-kit/sortable";
 import { Button, Container } from "@mui/material";
+import setCompleted from "../api/set_completed";
+import deleteSuggestion from "../api/delete_suggestion";
 
 interface Props {
   task: Task;
+  columnName: string;
   deleteTask: (id: Id) => void;
   updateTask: (id: Id, content: string) => void;
 }
@@ -19,13 +22,14 @@ function toggleTaskCompletion(task: Task): Task {
   };
 }
 
-function KanbanCard({ task, deleteTask, updateTask }: Props) {
+function KanbanCard({ task, columnName, deleteTask, updateTask }: Props) {
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(true);
-  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(task.completed);
   const [currentTask, setCurrentTask] = useState(task);
 
   const handleButtonClick = () => {
+    setCompleted(currentTask.content, !isButtonClicked, columnName);
     setIsButtonClicked(!isButtonClicked);
     const updatedTask = toggleTaskCompletion(currentTask);
     setCurrentTask(updatedTask);
@@ -145,6 +149,7 @@ function KanbanCard({ task, deleteTask, updateTask }: Props) {
         <Button sx={useStyle.Button}
           onClick={() => {
             deleteTask(task.id);
+            deleteSuggestion(task.content);
           }}
         >
           <BsFillTrash3Fill />

@@ -146,6 +146,7 @@ function KanbanLane({
             <KanbanCard
               key={task.id}
               task={task}
+              columnName={column.title}
               deleteTask={deleteTask}
               updateTask={updateTask}
             />
