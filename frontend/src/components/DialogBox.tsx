@@ -1,19 +1,21 @@
 import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import send_message from '../api/send_message.js';
+import addAction from '../api/addAction.js';
 
 interface DialogBoxProps {
     boxWidth: number;
     boxHeight: number;
     division: string
+    kanbanData: any;
     setSpeakingWithAgent: (speakingWithAgent: boolean) => void;
 }
 
 const dialogWidth = 400;
 const dialogHeight = 400;
-const agents : {[key: string]: string} = {"Marketing": "Alice"}
+const agents : {[key: string]: string} = {"Marketing": "Alice", "Admin": "Sally", "Research": "Bob", "Finance": "Jerry", "Legal": "Keith", "IT": "Tim", "HR": "Robert"}
 
-const DialogBox = ({boxWidth, boxHeight, division, setSpeakingWithAgent} : DialogBoxProps) => {
+const DialogBox = ({boxWidth, boxHeight, division, kanbanData, setSpeakingWithAgent} : DialogBoxProps) => {
 
     const useStyle = {
         Button: {
@@ -121,7 +123,10 @@ const DialogBox = ({boxWidth, boxHeight, division, setSpeakingWithAgent} : Dialo
             <p style={{margin: 20}}>{agentInput}</p>
             <div style={{display: 'flex', flexDirection: 'column', margin: 25}}>
             <Button sx={useStyle.ThirdButton} onClick={() => setConversationState(1)}>Ask a Follow Up</Button>
-            <Button sx={useStyle.ThirdButton} onClick={() => setSpeakingWithAgent(false)}>Add Action Item</Button>
+            <Button sx={useStyle.ThirdButton} onClick={() => {
+                addAction(userInput, division);
+                setSpeakingWithAgent(false)
+                }}>Add Action Item</Button>
             <Button sx={useStyle.ThirdButton} onClick={() => setSpeakingWithAgent(false)}>End Conversation</Button>
             </div>
         </>

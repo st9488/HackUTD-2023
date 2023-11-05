@@ -36,7 +36,7 @@ const Agent = ({name, sprite, startX, startY, movement, characterX, characterY, 
     const [direction, setDirection] = useState('forward');
     const [count, setCount] = useState(0);
     const [currDirection, setCurrDirection] = useState(0);
-    const [currentlyAvailable, setCurrentlyAvailable] = useState(false);
+    const [imTalkin, setImTalkin] = useState(false);
     
     const userImage = directionImages[directions.indexOf(direction)];
 
@@ -164,8 +164,8 @@ const Agent = ({name, sprite, startX, startY, movement, characterX, characterY, 
 
     useEffect(() => {
         setTimeout(() => {
-            console.log(speakingWithAgent)
             if (!checkSpriteCloseby() && !speakingWithAgent) {
+                console.log(speakingWithAgent)
                 switch (movement){
                     case 1:
                         walkingMovement1();
@@ -182,22 +182,10 @@ const Agent = ({name, sprite, startX, startY, movement, characterX, characterY, 
                     case 5:
                         walkingMovement5();
                         break;
-                }
-
-                if (currentlyAvailable){
-                    setCurrentlyAvailable(false);
-                    setCurrentAgent("");
-                }            
-            } else {
-                if (!currentlyAvailable) {
-                    setCurrentAgent(name);
-                    setCurrentlyAvailable(true);
-                }
-            }
-            if (currentlyAvailable){
-                setCurrentlyAvailable(false);
-                setCurrentAgent("");
-            }            
+                }              
+            } else if (checkSpriteCloseby() && !speakingWithAgent) {
+                setCurrentAgent(name);
+            }        
         }, 150);
     }, [characterX, characterY, agentX, agentY]);
 
