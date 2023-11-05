@@ -1,13 +1,4 @@
-// import React, { Component } from 'react'
-
-// export default class KanbanPage extends Component {
-//   render() {
-//     return (
-//       <div>KanbanPage</div>
-//     )
-//   }
-// }
-
+import { useEffect } from "react";
 import { GrAddCircle } from 'react-icons/gr';
 import { useMemo, useState } from "react";
 import { Column, Id, Task } from "./types";
@@ -27,69 +18,25 @@ import { createPortal } from "react-dom";
 import KanbanCard from "./KanbanCard";
 import {Container, Grid} from '@mui/material';
 import { Button } from "@mui/material";
+import setColumn from "../api/setColumn";
 
-const defaultCols: Column[] = [
-  {
-    id: "phase1",
-    title: "Phase 1",
-  },
-  {
-    id: "phase2",
-    title: "Phase 2",
-  },
-  {
-    id: "phase3",
-    title: "Phase 3",
-  },
-  {
-    id: "phase4",
-    title: "Phase 4",
-  },
-];
+interface KanbanBoardProps {
+  columns: Column[];
+  tasks: Task[];
+  setTasks: (tasks: Task[]) => void;
+  setColumns: (columns: Column[]) => void;
+}
 
-const defaultTasks: Task[] = [
-  {
-    id: "1",
-    columnId: "phase1",
-    content: "Task 1: blah blah blah",
-  },
-  {
-    id: "2",
-    columnId: "phase1",
-    content:
-      "Task 2: blah blah blah",
-  },
-  {
-    id: "3",
-    columnId: "phase2",
-    content: "Task 3: blah blah blah",
-  },
-  {
-    id: "4",
-    columnId: "phase2",
-    content: "Task 4: blah blah blah",
-  },
-  {
-    id: "5",
-    columnId: "phase3",
-    content: "Task 5: blah blah blah ",
-  },
-  {
-    id: "6",
-    columnId: "phase4",
-    content: "Task 6: blah blah blah",
-  },
-];
+function KanbanBoard({columns, tasks, setTasks, setColumns}: KanbanBoardProps) {
 
-function KanbanBoard() {
-  const [columns, setColumns] = useState<Column[]>(defaultCols);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
-  const [tasks, setTasks] = useState<Task[]>(defaultTasks);
-
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
-
   const [activeTask, setActiveTask] = useState<Task | null>(null);
+
+  useEffect(() => {}, [columns, tasks])
+
+  console.log(tasks);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -106,11 +53,13 @@ function KanbanBoard() {
         justifyContent: 'center',
         textAlign: 'center',
         padding: '10px',
+        boxShadow: '2px 2px 2px #D0D0D0',
+        width: '30%',
         
       "&:hover": {
         backgroundColor: "#A9DAFF !important",
         color: 'black',
-        boxShadow: "none !important",
+        boxShadow: "'2px 2px 2px #D0D0D0' !important",
       },
       "&:active": {
         boxShadow: "none !important",
@@ -120,17 +69,16 @@ function KanbanBoard() {
   };
 
   return (
-    <Container>
+    // <Container style={{display: 'flex', justifyContent: 'center', alignContent: 'center', flexDirection: 'column', margin: 10}}>
       <DndContext
         sensors={sensors}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
       >
-        <Grid container spacing={10} style={{display: 'flex', justifyContent: 'center'}}>
+        <Grid container spacing={0} style={{display: 'flex', justifyContent: 'center', alignContent: 'center', marginBottom: 10}}>
             <SortableContext items={columnsId}>
               {columns.map((col) => (
-                <div style={{paddingRight: 20}}>
                 <KanbanLane
                   key={col.id}
                   column={col}
@@ -141,19 +89,16 @@ function KanbanBoard() {
                   updateTask={updateTask}
                   tasks={tasks.filter((task) => task.columnId === col.id)}
                 /> 
-                </div>
               ))}
             </SortableContext>
           </Grid>
-          <div style={{padding: 10, }}>
-          </div>
           <Button sx={useStyle.Button}
             onClick={() => {
               createNewColumn();
             }}
           >
             <GrAddCircle style={{paddingRight: 10}}/>
-            Add Phase
+            Add New Phase
           </Button>
 
         {createPortal(
@@ -182,7 +127,7 @@ function KanbanBoard() {
           document.body
         )}
       </DndContext>
-    </Container>
+    // </Container>
   );
 
   function createTask(columnId: Id) {
@@ -190,6 +135,7 @@ function KanbanBoard() {
       id: generateId(),
       columnId,
       content: `Task ${tasks.length + 1}`,
+      completed: false
     };
 
     setTasks([...tasks, newTask]);
@@ -227,6 +173,7 @@ function KanbanBoard() {
   }
 
   function updateColumn(id: Id, title: string) {
+
     const newColumns = columns.map((col) => {
       if (col.id !== id) return col;
       return { ...col, title };
@@ -311,6 +258,10 @@ function KanbanBoard() {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
 
         tasks[activeIndex].columnId = overId;
+
+        const columnIndex = columns.findIndex((col) => col.id === overId);
+        const columnName = columns[columnIndex].title;
+        setColumn(tasks[activeIndex].content, columnName);
         console.log("DROPPING TASK OVER COLUMN", { activeIndex });
         return arrayMove(tasks, activeIndex, activeIndex);
       });
