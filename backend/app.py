@@ -37,7 +37,7 @@ def setup_workers():
         prompt="You are talking to the user. Your job is solely to direct the admin to one of the following departments: Research, Marketing, Finance, Legal, IT, HR.",
         type="Admin",
     )
-    workers["Admin"].add_suggestion("Fire everyone in HR", False, "phase1")
+    workers["Admin"].add_suggestion("Fire everyone in HR", False, "Phase 1")
 
     workers["Research"] = Worker(
         name="Bob",
@@ -45,7 +45,7 @@ def setup_workers():
         prompt="You are talking to the user, and you are in charge of research.",
         type="Research",
     )
-    workers["Research"].add_suggestion("Create a new product", False, "phase1")
+    workers["Research"].add_suggestion("Create a new product", False, "Phase 1")
 
     def read_about_latest_research_on_chatgpt():
         """
@@ -88,7 +88,7 @@ def setup_workers():
         prompt="You are talking to the user, and you are in charge of finances.",
         type="Finance",
     )
-    workers["Finance"].add_suggestion("Make a Budget", False, "phase1")
+    workers["Finance"].add_suggestion("Make a Budget", False, "Phase 1")
 
     def get_finance_news():
         """
@@ -110,7 +110,7 @@ def setup_workers():
         prompt="You are are talking to a client.",
         type="Legal",
     )
-    workers["Legal"].add_suggestion("Sue your competitors", False, "phase1")
+    workers["Legal"].add_suggestion("Sue your competitors", False, "Phase 1")
 
     def get_legal_news():
         """
@@ -131,7 +131,7 @@ def setup_workers():
         prompt="You are are talking to the user, and you are in charge of IT.",
         type="IT",
     )
-    workers["IT"].add_suggestion("Kick your Router", False, "phase1")
+    workers["IT"].add_suggestion("Kick your Router", False, "Phase 1")
 
     def get_it_news():
         """
@@ -190,7 +190,7 @@ def generate_suggestion(worker_type):
     """
     content = request.form["message"]
     workers[worker_type].add_suggestion(
-        workers[worker_type].generate_action_from_message(content), False, "phase1"
+        workers[worker_type].generate_action_from_message(content), False, "Phase 1"
     )
     return "OK"
 
