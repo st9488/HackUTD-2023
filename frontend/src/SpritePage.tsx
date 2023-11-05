@@ -11,9 +11,10 @@ const modifer = 0.8
 
 interface SpritePageProps {
   setOnGame: (onGame: boolean) => void;
+  setKanbanData: (kanbanData : any) => void;
 }
 
-const SpritePage = () => {
+const SpritePage = ({setOnGame, setKanbanData}: SpritePageProps) => {
 
   //macbook dimensions: 636px, 1256px
   //reg dimensions: 795, 1571
