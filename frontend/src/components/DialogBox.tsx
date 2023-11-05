@@ -3,6 +3,14 @@ import { useEffect, useState } from 'react';
 import send_message from '../api/send_message.js';
 import '../SpritePage.css';
 import addAction from '../api/addAction.js';
+import agent1 from "../assets/User/Agent1_Forward.png";
+import agent2 from "../assets/User/Agent2_Forward.png";
+import agent3 from "../assets/User/Agent3_Forward.png";
+import agent4 from "../assets/User/Agent4_Forward.png";
+import agent5 from "../assets/User/Agent5_Forward.png";
+import agent6 from "../assets/User/Agent6_Forward.png";
+import agent7 from "../assets/User/Agent7_Forward.png";
+
 
 
 interface DialogBoxProps {
@@ -94,10 +102,40 @@ const DialogBox = ({boxWidth, boxHeight, division, setOnGame, setSpeakingWithAge
 
     const agentName = agents[division]
 
+    const getAgentImage = () => {
+      switch(division){
+        case 'IT':
+          return agent6;
+          break;
+        case 'Research':
+          return agent1;
+          break;
+        case 'Finance':
+          return agent2;
+          break;
+        case 'HR':
+          return agent3;
+          break;
+        case 'Legal':
+          return agent4;
+          break;
+        case 'Admin':
+          return agent7;
+          break;
+        case 'Marketing':
+          return agent5;
+          break;
+      }
+
+    }
+
     let displayElement = <></>;
     if (conversationState === 0) {
         displayElement = <>
-            <h2 style={{marginLeft: 30,marginRight: 30, marginTop: 30, marginBottom: 20, padding: 10}}>Hi, I'm {agentName} from {division}!</h2>
+            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              <img className="imgSprite" src={getAgentImage()} style={{width: 80, height:80, objectFit: 'contain', marginTop: 20}}></img>
+            </div>
+            <h2 style={{marginLeft: 30,marginRight: 30, marginTop: 10, marginBottom: 20, padding: 10}}>Hi, I'm {agentName} from {division}!</h2>
             <p style={{fontWeight: 500}}>How can I help you today?</p>
             <div style={{display: 'flex', flexDirection: 'column', marginTop: 25, marginLeft: 35, marginRight: 35, marginBottom: 35}}>
             <Button sx={useStyle.Button} onClick={() => setConversationState(1)}>I Want to Ask a Question</Button>
