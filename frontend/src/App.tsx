@@ -32,9 +32,11 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [columns, setColumns] = useState([]);
 
+  console.log(onGame)
+
   useEffect(() => {
     getTasks(setTasks, setColumns);
-  }, []);
+  }, [onGame]);
 
   return (
     <>
