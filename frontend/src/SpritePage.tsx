@@ -19,10 +19,17 @@ const SpritePage = ({setOnGame, setKanbanData}: SpritePageProps) => {
   //macbook dimensions: 636px, 1256px
   //reg dimensions: 795, 1571
 
-  const [speakingWithAgent, setSpeakingWithAgent] = useState(true);
+  const [speakingWithAgent, setSpeakingWithAgent] = useState(false);
   const [division, setDivision] = useState('');
   const [characterX, setCharacterX] = useState(0);
   const [characterY, setCharacterY] = useState(0);
+  let count1 = 0;
+  let currDirection1 = 0;
+  let count2 = 0;
+  let currDirection2 = 0;
+  let count3 = 0;
+  let currDirection3 = 0;
+  
 
   useEffect(() => {
     setDivision('Marketing');
@@ -34,7 +41,14 @@ const SpritePage = ({setOnGame, setKanbanData}: SpritePageProps) => {
       <img src={officeBackground} style={{width: '100%', height: '100%', position: 'relative'}}/>
       {speakingWithAgent ? <DialogBox boxWidth={width * modifer} boxHeight={height * modifer} division={division} setSpeakingWithAgent={setSpeakingWithAgent}/> : null}
       <Character startX={200} startY={600} currentlySpeaking={speakingWithAgent} setCharacterX={setCharacterX} setCharacterY={setCharacterY}/>
-      <Agent name="User" sprite={"hi"} startX={100} startY={200} movement={1} characterX={characterX} characterY={characterY}/>
+      <Agent name="Agent1" sprite={"hi"} startX={100} startY={200} movement={1} characterX={characterX} characterY={characterY}  />
+      <Agent name="Agent2" sprite={"hi"} startX={450} startY={200} movement={2} characterX={characterX} characterY={characterY} />
+      <Agent name="Agent3" sprite={"hi"} startX={1075} startY={200} movement={3} characterX={characterX} characterY={characterY} />
+      <Agent name="Agent4" sprite={"hi"} startX={750} startY={200} movement={1} characterX={characterX} characterY={characterY} />
+      <Agent name="Agent5" sprite={"hi"} startX={600} startY={530} movement={5} characterX={characterX} characterY={characterY} />
+      <Agent name="Agent6" sprite={"hi"} startX={975} startY={510} movement={2} characterX={characterX} characterY={characterY} />
+      <Agent name="Agent4" sprite={"hi"} startX={250} startY={400} movement={4} characterX={characterX} characterY={characterY} />
+      
     </div>
   )
 
