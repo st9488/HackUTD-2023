@@ -3,6 +3,7 @@ from typing import Dict, List
 import os
 from dotenv import load_dotenv
 import openai
+import copy
 
 load_dotenv()
 
@@ -47,6 +48,21 @@ class Suggestion:
         Converts a list of suggestions to a list of dictionaries.
         """
         return [Suggestion.serializer(suggestion) for suggestion in suggestionList]
+
+    @staticmethod
+    def serialize_list_for_output(suggestionList):
+        """
+        Converts a list of suggestions to a list of dictionaries.
+        """
+        list_of_suggestions = [
+            copy.deepcopy(suggestion) for suggestion in suggestionList
+        ]
+        for suggestion in list_of_suggestions:
+            suggestion.phase = suggestion.phase.replace("phase", "Phase ")
+        output_list = [
+            Suggestion.serializer(suggestion) for suggestion in list_of_suggestions
+        ]
+        return output_list
 
 
 class Message:
@@ -360,7 +376,7 @@ class Worker:
         """
         Get the suggestions that you have made to the user.
         """
-        return f"The following suggestions have been made by {self.name}: {Suggestion.serialize_list(self.suggestions)}"
+        return f"The following suggestions have been made by {self.name}: {Suggestion.serialize_list_for_output(self.suggestions)}"
 
 
 class MultiAgentConversation:

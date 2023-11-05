@@ -19,6 +19,7 @@ db = FAISS.load_local(
     embeddings=embeddings,
 )
 google_news = GNews()
+print("Fully loaded...")
 
 
 @app.before_request
@@ -150,7 +151,7 @@ def setup_workers():
     )
 
     for worker in workers.values():
-        worker.add_function(worker.read_my_suggestions_to_the_user)
+        worker.add_function(worker.read_suggestions_to_the_user)
 
 
 @app.route("/")
