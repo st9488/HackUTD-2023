@@ -118,6 +118,8 @@ def setup_workers():
             legal_news_titles.append(article["title"])
         return json.dumps(legal_news_titles)
 
+    workers["Legal"].add_function(get_legal_news)
+
     workers["IT"] = Worker(
         name="Tim",
         job="IT Manager",
@@ -136,6 +138,8 @@ def setup_workers():
         for article in it_news:
             it_news_titles.append(article["title"])
         return json.dumps(it_news_titles)
+
+    workers["IT"].add_function(get_it_news)
 
     workers["HR"] = Worker(
         name="Robert",
