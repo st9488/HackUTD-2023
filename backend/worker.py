@@ -356,9 +356,9 @@ class Worker:
             Message("system", "This is no longer a multi-agent conversation.")
         )
 
-    def read_my_suggestions(self):
+    def read_suggestions_to_the_user(self):
         """
-        This is for inserting a workers suggestions into the memory (just return the suggestions in text).
+        Get the suggestions that you have made to the user.
         """
         return f"The following suggestions have been made by {self.name}: {Suggestion.serialize_list(self.suggestions)}"
 

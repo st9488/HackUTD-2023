@@ -150,7 +150,7 @@ def setup_workers():
     )
 
     for worker in workers.values():
-        worker.add_function(worker.read_my_suggestions)
+        worker.add_function(worker.read_my_suggestions_to_the_user)
 
 
 @app.route("/")
