@@ -140,7 +140,7 @@ function KanbanLane({
         </Button>
         )}
       </div>
-      <div style={{display: 'flex', flexDirection: 'column', flexGrow: 1, paddingBottom: 10, margin: 5}}>
+      <div style={{display: 'flex', flexDirection: 'column',flexWrap: "wrap", flexGrow: 1, paddingBottom: 10, margin: 5, maxHeight: 500}}>
         <SortableContext items={tasksIds}>
           {tasks.map((task) => (
             <KanbanCard

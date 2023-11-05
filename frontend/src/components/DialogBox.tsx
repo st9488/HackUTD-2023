@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import send_message from '../api/send_message.js';
+import '../SpritePage.css';
 
 interface DialogBoxProps {
     boxWidth: number;
@@ -118,7 +119,9 @@ const DialogBox = ({boxWidth, boxHeight, division, setSpeakingWithAgent} : Dialo
         </>
     } else if (conversationState === 3) {
         displayElement = <>
-            <p style={{margin: 20}}>{agentInput}</p>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <div style={{height: 120, width: 315, overflowY: 'scroll', marginTop: 20}}>{agentInput}</div>
+        </div>
             <div style={{display: 'flex', flexDirection: 'column', margin: 25}}>
             <Button sx={useStyle.ThirdButton} onClick={() => setConversationState(1)}>Ask a Follow Up</Button>
             <Button sx={useStyle.ThirdButton} onClick={() => setSpeakingWithAgent(false)}>Add Action Item</Button>

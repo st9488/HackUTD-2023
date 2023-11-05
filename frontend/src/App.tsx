@@ -31,6 +31,7 @@ function App() {
   const [onGame, setOnGame] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [columns, setColumns] = useState([]);
+  let text = (onGame ? "Kanban Board" : "Start Game")
 
   useEffect(() => {
     getTasks(setTasks, setColumns);
@@ -38,7 +39,7 @@ function App() {
 
   return (
     <>
-      <Button sx={useStyle.Button} onClick={() => setOnGame(!onGame)}>Start Game</Button>
+      <Button sx={useStyle.Button} onClick={() => setOnGame(!onGame)}>{text}</Button>
       {onGame ? 
         <SpritePage setOnGame={setOnGame} setKanbanData={setTasks}/> 
         : 

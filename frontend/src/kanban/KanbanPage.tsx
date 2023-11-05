@@ -34,6 +34,7 @@ function KanbanBoard({columns, tasks, setTasks, setColumns}: KanbanBoardProps) {
 
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const modifer = 0.8
 
   useEffect(() => {}, [columns, tasks])
 
@@ -70,14 +71,14 @@ function KanbanBoard({columns, tasks, setTasks, setColumns}: KanbanBoardProps) {
   };
 
   return (
-    <Container style={{background: `url(${backgroundO})`, width: '300vw', zIndex: -999}}>
+    <Container className="kanbanContainer" style={{background: `url(${backgroundO})`, width: 1571*modifer, zIndex: -999, height: 795*modifer}}>
       <DndContext
         sensors={sensors}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
       >
-        <Grid container spacing={0} style={{display: 'flex', justifyContent: 'center', alignContent: 'center', marginBottom: 10}}>
+        <Grid container spacing={0} fixed style={{display: 'flex', justifyContent: 'center', alignContent: 'center', marginBottom: 10}}>
             <SortableContext items={columnsId}>
               {columns.map((col) => (
                 <KanbanLane
