@@ -20,8 +20,8 @@ def user_speak_example():
 
     lawyer.add_function(get_weather)
 
-    lawyer.receive_message("Hello, do you know what the weather is like?")
-    # lawyer.receive_message("My cat is suing me, what should I do?")
+    # lawyer.receive_message("Hello, do you know what the weather is like?")
+    lawyer.receive_message("My cat is suing me, what should I do?")
 
     lawyer.next_message()
 

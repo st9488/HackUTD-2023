@@ -20,7 +20,10 @@ def setup_workers():
         return
 
     workers["Admin"] = Worker(
-        name="Sally", job="CEO", prompt="You are talking to the user.", type="Admin"
+        name="Sally",
+        job="CEO",
+        prompt="You are talking to the user. Your job is solely to direct the admin to one of the following departments: Research, Marketing, Finance, Legal, IT, HR.",
+        type="Admin",
     )
     workers["Admin"].add_suggestion("Fire everyone in HR", False, "phase1")
 
@@ -139,7 +142,9 @@ def update_suggestion():
                 print("worker suggestions:", worker.suggestions)
                 return "200"
 
-    return "505"
+    # if the suggestion is not found, create it under the admin worker
+    workers["Admin"].add_suggestion(newsuggestion, newcompleted, newphase)
+    return "201"
 
 
 @app.route("/delete_suggestion", methods=["POST"])

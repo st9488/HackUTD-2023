@@ -7,6 +7,7 @@ import openai
 load_dotenv()
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
+TOKEN_LIMIT = 100
 
 
 class OpenAIFunction:
@@ -84,7 +85,7 @@ class Message:
         return Message(message["role"], message["content"])
 
     @staticmethod
-    def convert_messages(messages):
+    def convert_messages(messages) -> List[Dict[str, str]]:
         """
         Converts a list of messages to a list of dictionaries.
         """
@@ -156,13 +157,13 @@ class Worker:
                 messages=Message.convert_messages(self.memory),
                 functions=function_candidates,
                 function_call=function_force,
-                max_tokens=500,
+                max_tokens=TOKEN_LIMIT,
             )
         else:
             completion = openai.ChatCompletion.create(
                 model=self.model,
                 messages=Message.convert_messages(self.memory),
-                max_tokens=500,
+                max_tokens=TOKEN_LIMIT,
             )
         # print(completion)
 
@@ -244,7 +245,7 @@ class Worker:
             messages=Message.convert_messages(messages),
             functions=functions,
             function_call=function_call,
-            max_tokens=500,
+            max_tokens=TOKEN_LIMIT,
         )
 
         return json.loads(completion.choices[0].message.function_call.arguments)[
@@ -328,7 +329,7 @@ class Worker:
             messages=Message.convert_messages(self.memory),
             functions=functions,
             function_call=function_call,
-            max_tokens=500,
+            max_tokens=TOKEN_LIMIT,
         )
 
         # wipe the last memory
