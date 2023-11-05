@@ -24,7 +24,12 @@ const getTasks = async (setTasks : React.Dispatch<React.SetStateAction<Task[]>>,
                 columnID++;
             }
             const newID : Id = taskID;
-            tasks.push({id: newID, columnId: columns.filter((column) => column.title === task.phase)[0].id, content: task.message});
+            let completed : boolean = false;
+            if (task.completed === 'true') {
+                completed = true;
+            }
+            console.log(task);
+            tasks.push({id: newID, columnId: columns.filter((column) => column.title === task.phase)[0].id, content: task.message, completed: completed});
             taskID++;
         
         });

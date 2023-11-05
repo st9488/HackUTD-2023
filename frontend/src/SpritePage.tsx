@@ -21,16 +21,17 @@ interface SpritePageProps {
   setKanbanData: (kanbanData : any) => void;
 }
 
-const SpritePage = ({setOnGame, setKanbanData}: SpritePageProps) => {
+const SpritePage = ({kanbanData, setOnGame, setKanbanData}: SpritePageProps) => {
 
   //macbook dimensions: 636px, 1256px
   //reg dimensions: 795, 1571
 
   const [speakingWithAgent, setSpeakingWithAgent] = useState(false);
-  const [division, setDivision] = useState('');
   const [characterX, setCharacterX] = useState(0);
   const [characterY, setCharacterY] = useState(0);
   const [currentAgent, setCurrentAgent] = useState('');
+
+  console.log(currentAgent)
 
   let count1 = 0;
   let currDirection1 = 0;
@@ -38,17 +39,12 @@ const SpritePage = ({setOnGame, setKanbanData}: SpritePageProps) => {
   let currDirection2 = 0;
   let count3 = 0;
   let currDirection3 = 0;
-  
-
-  useEffect(() => {
-    setDivision('Marketing');
-  }, [])
 
   return (
     // make a board that is 16:9 resolution
     <div className="sprite-page" style={{backgroundColor: 'burlywood', height: 795*modifer, width: 1571*modifer, position: 'relative'}}>
       <img src={officeBackground} style={{width: '100%', height: '100%', position: 'relative'}}/>
-      {speakingWithAgent ? <DialogBox boxWidth={width * modifer} boxHeight={height * modifer} division={division} setSpeakingWithAgent={setSpeakingWithAgent}/> : null}
+      {speakingWithAgent ? <DialogBox boxWidth={width * modifer} boxHeight={height * modifer} division={currentAgent} setSpeakingWithAgent={setSpeakingWithAgent} kanbanData={kanbanData}/> : null}
       <Character startX={100} startY={650} currentlySpeaking={speakingWithAgent} setCharacterX={setCharacterX} setCharacterY={setCharacterY} setSpeakingWithAgent={setSpeakingWithAgent}/>
       <Agent name="Research" sprite={"hi"} startX={100} startY={200} movement={1} characterX={characterX} characterY={characterY} speakingWithAgent={speakingWithAgent} setCurrentAgent={setCurrentAgent} forward={agent1}/>
       <Agent name="Finance" sprite={"hi"} startX={550} startY={150} movement={2} characterX={characterX} characterY={characterY} speakingWithAgent={speakingWithAgent} setCurrentAgent={setCurrentAgent} forward={agent2}/>
