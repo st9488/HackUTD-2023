@@ -50,4 +50,8 @@ def generate_action_item():
 if __name__ == "__main__":
     # user_speak_example()
     # generate_action_item()
-    pass
+    print(
+        Message.convert_messages(
+            Worker("Jerry", "Lawyer", "You are are talking to a client.").memory
+        )
+    )

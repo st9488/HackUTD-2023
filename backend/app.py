@@ -1,7 +1,7 @@
 import json
 from flask import Flask, request
 from flask_cors import CORS
-from worker import Worker
+from worker import Worker, Message
 from typing import Dict
 
 app = Flask(__name__)
@@ -86,4 +86,4 @@ def send_message(worker_type):
 
 @app.route("/get_worker_memory/<worker_type>", methods=["GET"])
 def get_worker_memory(worker_type):
-    return json.dumps(workers[worker_type].memory)
+    return Message.convert_messages(workers[worker_type].memory)
