@@ -3,22 +3,21 @@ import user_forward from '../assets/User/User_Forward.png';
 import user_backward from '../assets/User/User_Backwards.png';
 
 interface CharacterProps {
-    name: string;
-    sprite: string;
     startX: number;
     startY: number;
+    currentlySpeaking: boolean;
 }
 
 const directions = ['forward', 'backward', 'left', 'right'];
 const directionImages = [user_forward, user_backward, user_backward, user_backward];
 const userYOffset = -60;
 const userXOffset = 0;
-const height = 796;
-const width = 1570;
-const walkableHeight = height + userYOffset;
-const walkableWidth = width + userXOffset;
+const height = 500;
+const width = 1000;
+const walkableHeight = height - 144;
+const walkableWidth = width - 50;
 
-const Character = ({name, sprite, startX, startY} : CharacterProps) => {
+const Character = ({startX, startY, currentlySpeaking} : CharacterProps) => {
 
     const [x, setX] = useState(startX + userXOffset);
     const [y, setY] = useState(startY + userYOffset);
@@ -29,19 +28,24 @@ const Character = ({name, sprite, startX, startY} : CharacterProps) => {
 
     useEffect(() => {
         setTimeout(() => {
-            if (currentKey === 'ArrowUp') {
-                setDirection('backward');
-                
-                setY(y - 10);
-            } else if (currentKey === 'ArrowDown') {
-                setDirection('forward');
-                setY(y + 10);
-            } else if (currentKey === 'ArrowLeft') {
-                setDirection('left');
-                setX(x - 10);
-            } else if (currentKey === 'ArrowRight') {
-                setDirection('right');
-                setX(x + 10);
+            if (!currentlySpeaking) {
+                if (currentKey === 'ArrowUp') {
+                    setDirection('backward');
+                    if (y - 8 > userYOffset)
+                        setY(y - 8);
+                } else if (currentKey === 'ArrowDown') {
+                    setDirection('forward');
+                    if (y + 8 < walkableHeight)
+                        setY(y + 8);
+                } else if (currentKey === 'ArrowLeft') {
+                    setDirection('left');
+                    if (x - 8 > userXOffset)
+                        setX(x - 8);
+                } else if (currentKey === 'ArrowRight') {
+                    setDirection('right');
+                    if (x + 8 < walkableWidth)
+                        setX(x + 8);
+                }
             }
         }, 10);
     }, [x, y, currentKey]);
