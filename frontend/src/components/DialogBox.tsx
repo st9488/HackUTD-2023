@@ -136,6 +136,7 @@ const DialogBox = ({boxWidth, boxHeight, division, setSpeakingWithAgent} : Dialo
         position: 'absolute' as 'absolute',
         left: relativeX, 
         top: relativeY,
+        zIndex: 10,
       };
 
     return (

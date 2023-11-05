@@ -36,8 +36,6 @@ function KanbanBoard({columns, tasks, setTasks, setColumns}: KanbanBoardProps) {
 
   useEffect(() => {}, [columns, tasks])
 
-  console.log(tasks);
-
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
