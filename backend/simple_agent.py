@@ -32,3 +32,4 @@ class SimpleAgent:
         completion = openai.ChatCompletion.create(
             model=self.model, messages=Message.convert_messages(messages)
         )
+        return completion.choices[0].content

@@ -149,6 +149,9 @@ def setup_workers():
         type="HR",
     )
 
+    for worker in workers.values():
+        worker.add_function(worker.read_my_suggestions)
+
 
 @app.route("/")
 def hello_world():

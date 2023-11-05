@@ -356,6 +356,12 @@ class Worker:
             Message("system", "This is no longer a multi-agent conversation.")
         )
 
+    def read_my_suggestions(self):
+        """
+        This is for inserting a workers suggestions into the memory (just return the suggestions in text).
+        """
+        return f"The following suggestions have been made by {self.name}: {Suggestion.serialize_list(self.suggestions)}"
+
 
 class MultiAgentConversation:
     def __init__(self, workers: List[Worker], conversation_goal: str = None) -> None:
