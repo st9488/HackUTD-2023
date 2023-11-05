@@ -7,6 +7,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { Button, Container } from "@mui/material";
 import setCompleted from "../api/set_completed";
 import deleteSuggestion from "../api/delete_suggestion";
+import changeMessage from "../api/change_messge";
 
 interface Props {
   task: Task;
@@ -27,6 +28,8 @@ function KanbanCard({ task, columnName, deleteTask, updateTask }: Props) {
   const [editMode, setEditMode] = useState(true);
   const [isButtonClicked, setIsButtonClicked] = useState(task.completed);
   const [currentTask, setCurrentTask] = useState(task);
+
+  // const oldTask = task;
 
   const handleButtonClick = () => {
     setCompleted(currentTask.content, !isButtonClicked, columnName);
@@ -83,6 +86,7 @@ function KanbanCard({ task, columnName, deleteTask, updateTask }: Props) {
   const toggleEditMode = () => {
     setEditMode((prev) => !prev);
     setMouseIsOver(false);
+
   };
 
   if (isDragging) {
@@ -130,6 +134,7 @@ function KanbanCard({ task, columnName, deleteTask, updateTask }: Props) {
       }}
       onMouseLeave={() => {
         setMouseIsOver(false);
+        // changeMessage(oldTask.content, task.completed, columnName, task.content);
       }}
     >
       <p 
@@ -138,7 +143,7 @@ function KanbanCard({ task, columnName, deleteTask, updateTask }: Props) {
       </p>
 
       {mouseIsOver && (
-        <Container>
+        <div>
           <Button sx={useStyle.Button}
           onClick={() => {
             handleButtonClick()
@@ -154,7 +159,7 @@ function KanbanCard({ task, columnName, deleteTask, updateTask }: Props) {
         >
           <BsFillTrash3Fill />
         </Button>
-        </Container>
+        </div>
       )}
     </div>
   );

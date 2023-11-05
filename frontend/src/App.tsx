@@ -36,8 +36,11 @@ function App() {
   console.log(onGame)
 
   useEffect(() => {
-    getTasks(setTasks, setColumns);
-  }, [onGame]);
+    setTimeout(() => {
+      if (onGame) return;
+      getTasks(setTasks, setColumns);
+    }, 5000);
+  }, [onGame, tasks]);
 
   return (
     <>

@@ -158,7 +158,7 @@ function KanbanBoard({columns, tasks, setTasks, setColumns}: KanbanBoardProps) {
   function createNewColumn() {
     const columnToAdd: Column = {
       id: generateId(),
-      title: `Column ${columns.length + 1}`,
+      title: `Phase ${columns.length + 1}`,
     };
 
     setColumns([...columns, columnToAdd]);
