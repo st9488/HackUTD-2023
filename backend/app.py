@@ -128,13 +128,16 @@ def update_suggestion():
     newsuggestion = request.form["newsuggestion"]
 
     # go through workers and find the suggestion
+    print(suggestion)
+    print(newcompleted)
     for worker in workers.values():
         for worker_suggestion in worker.suggestions:
             if worker_suggestion.message == suggestion:
                 worker_suggestion.completed = newcompleted
                 worker_suggestion.phase = newphase
                 worker_suggestion.message = newsuggestion
-                return "OK"
+                print("worker suggestions:", worker.suggestions)
+                return "200"
 
     return "505"
 

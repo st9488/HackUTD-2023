@@ -250,3 +250,178 @@ class Worker:
         return json.loads(completion.choices[0].message.function_call.arguments)[
             "action_item"
         ]
+
+    def talk_to_worker(self, other_worker):
+        """
+        This function is used to facilitate inter-worker communication.
+        """
+
+        # first we assume that we are initiating the conversation.
+        # we send a message to the other worker and record it in our memory.
+        self.memory.append(
+            Message(
+                "system",
+                f"You are now going to talk to {other_worker.name}. They are a {other_worker.job}.",
+            )
+        )
+        self.next_message()
+
+        # make sure the other worker knows what the first one said
+        other_worker.memory.append(
+            Message(
+                "system",
+                f"You are now going to talk to {self.name}. They are a {self.job}.",
+            )
+        )
+        other_worker.memory.append(Message("user", self.memory[-1].message))
+        other_worker.next_message()
+
+        # end the conversation
+        self.receive_message(other_worker.memory[-1].message)
+        self.memory.append(
+            Message(
+                "system",
+                f"The conversation between {self.name} and {other_worker.name} has ended. You are now talking to the user again.",
+            )
+        )
+        other_worker.memory.append(
+            Message(
+                "system",
+                f"The conversation between {self.name} and {other_worker.name} has ended. You are now talking to the user again.",
+            )
+        )
+
+    def decide_to_respond(self) -> bool:
+        """
+        This function is used to decide whether or not to respond to a message. This is primarily for
+        conversations where the user is talking to multiple workers at once.
+        """
+
+        # create the decision prompt
+        prompt = f"""Knowing the full context of the conversation up to this point, do you believe that responding to the previous message would make sense? If so, use the display_message function to output a true or false. Output true if you should respond and it makes sense to respond. Output false if you should not respond."""
+
+        self.memory.append(Message("system", prompt))
+
+        # create the function call
+        function_call = {"name": "display_message"}
+
+        # create the function
+        functions = [
+            {
+                "name": "display_message",
+                "description": "Display a message to the user.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "whether_or_not_you_should_respond": {
+                            "type": "boolean",
+                            "description": "Set this to true if you should respond to the previous message. Set this to false if you should not respond to the previous message.",
+                        }
+                    },
+                },
+            }
+        ]
+
+        # generate the completion
+        completion = openai.ChatCompletion.create(
+            model=self.model,
+            messages=Message.convert_messages(self.memory),
+            functions=functions,
+            function_call=function_call,
+            max_tokens=500,
+        )
+
+        # wipe the last memory
+        self.memory.pop()
+
+        # get the response
+        response = json.loads(completion.choices[0].message.function_call.arguments)[
+            "whether_or_not_you_should_respond"
+        ]
+
+        # return the response
+        return response == "True"
+
+    def begin_multi_agent_conversation(self):
+        self.memory.append(
+            Message(
+                "system",
+                f'This is now a multi-agent conversation. Your name is {self.name}. Each person will precede their message with their name and a colon such as "George: Hello Jerry!" which signifies that George is speaking.',
+            )
+        )
+
+    def end_multi_agent_conversation(self):
+        self.memory.append(
+            Message("system", "This is no longer a multi-agent conversation.")
+        )
+
+
+class MultiAgentConversation:
+    def __init__(self, workers: List[Worker], conversation_goal: str = None) -> None:
+        for worker in workers:
+            worker.begin_multi_agent_conversation()
+        self.workers = workers
+        self.current_worker = 0
+        self.first_message = True
+        self.passes = 0
+        self.conversation_ended = False
+        self.goal = conversation_goal
+
+    def __del__(self):
+        for worker in self.workers:
+            worker.end_multi_agent_conversation()
+
+    def send_message_to_workers(self, message: str, sending_worker_name: str):
+        """
+        Send a message to all workers in the conversation.
+        """
+        for worker in self.workers:
+            if worker.name != sending_worker_name:
+                worker.receive_message(message)
+
+    def iterate(self):
+        """
+        Iterate through the workers in the conversation.
+        """
+        # if this is the first messgae, then force the first worker to send a message
+        if self.first_message:
+            self.workers[self.current_worker].next_message()
+            # get the message the worker sent
+            message = self.workers[self.current_worker].memory[-1].message
+            # send the message to the other workers
+            self.send_message_to_workers(
+                message, self.workers[self.current_worker].name
+            )
+            # increment the current worker
+            self.current_worker += 1
+            self.current_worker %= len(self.workers)
+            # set first message to false
+            self.first_message = False
+        else:
+            # get the current worker
+            current_worker = self.workers[self.current_worker]
+
+            # decide whether or not to respond
+            should_respond = current_worker.decide_to_respond()
+
+            # if the worker should respond, then respond
+            if should_respond:
+                self.workers[self.current_worker].next_message()
+                # get the message the worker sent
+                message = self.workers[self.current_worker].memory[-1].message
+                # send the message to the other workers
+                self.send_message_to_workers(
+                    message, self.workers[self.current_worker].name
+                )
+
+                self.passes = 0
+            else:
+                self.passes += 1
+
+            # increment the current worker
+            self.current_worker += 1
+            self.current_worker %= len(self.workers)
+
+            if self.passes > len(self.workers):
+                self.first_message = True
+                self.passes = 0
