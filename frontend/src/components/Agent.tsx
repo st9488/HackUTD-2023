@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import user_forward from '../assets/User/User_Forward.png';
 import user_backward from '../assets/User/User_Backwards.png';
 import Character from './Character';
+import { set } from 'lodash';
 
 interface CharacterProps {
     name: string;
@@ -11,6 +12,8 @@ interface CharacterProps {
     movement: number;
     characterX: number;
     characterY: number;
+    // count: number;
+    // currDirection: number;
 }
 
 const modifier = 0.8
@@ -22,9 +25,8 @@ const height = (796*modifier)/2;
 const width = (1570*modifier)/4;
 const walkableHeight = height + userYOffset;
 const walkableWidth = width + userXOffset;
-let currDirection = 0
-let count = 0
-const spriteCloseby = Character
+const spriteCloseby = 0
+
 
 const Agent = ({name, sprite, startX, startY, movement, characterX, characterY} : CharacterProps) => {
 
@@ -32,73 +34,134 @@ const Agent = ({name, sprite, startX, startY, movement, characterX, characterY} 
     const [agentY, setAgentY] = useState(startY + userYOffset);
     const [direction, setDirection] = useState('forward');
     const [currentKey, setCurrentKey] = useState('');
+    const [count, setCount] = useState(0);
+    const [currDirection, setCurrDirection] = useState(0)
+ 
     
     const userImage = directionImages[directions.indexOf(direction)];
 
 
 
     const walkingMovement1 = () => {
-
         if (currDirection == 0){
-            setAgentX(agentX + 20);
-            count = count + 1
-            if (count == 4){
-                currDirection = 1;
-                count = 0
+            console.log(name + " count:" + count + " currDirection:" + currDirection)
+            setAgentX(agentX + 10);
+            setCount(count+1)
+            if (count >= 4){
+                setCurrDirection(1)
+                setCount(0)
             } 
         } else if (currDirection == 1) {
-            setAgentX(agentX - 20);
-            count = count + 1
-            if (count == 4){
-                currDirection = 0;
-                count = 0
+            console.log(name + " count:" + count + " currDirection:" + currDirection)
+            setAgentX(agentX - 10);
+            setCount(count+1)
+            if (count >= 4){
+                setCurrDirection(0)
+                setCount(0)
             }
         }
     }
 
     const walkingMovement2 = () => {
         if (currDirection == 0){
-            setAgentX(agentX + 20);
-            count = count + 1
-            if (count == 4){
-                currDirection = 1;
-                count = 0
+            console.log(name + " count:" + count + " currDirection:" + currDirection)
+            setAgentY(agentY + 10);
+            setCount(count+1)
+            if (count == 2){
+                setCurrDirection(1)
+                setCount(0)
             } 
         } else if (currDirection == 1) {
-            setAgentX(agentX - 20);
-            count = count + 1
-            if (count == 4){
-                currDirection = 0;
-                count = 0
+            console.log(name + " count:" + count + " currDirection:" + currDirection)
+            setAgentY(agentY - 10);
+            setCount(count+1)
+            if (count == 2){
+                setCurrDirection(0)
+                setCount(0)
             }
         }
     }
 
     const walkingMovement3 = () => {
         if (currDirection == 0){
-            setAgentX(agentX + 20);
-            count = count + 1
-            if (count == 4){
-                currDirection = 1;
-                count = 0
-            } 
-        } else if (currDirection == 1) {
-            setAgentX(agentX - 20);
-            count = count + 1
-            if (count == 4){
-                currDirection = 0;
-                count = 0
+            if (count == 0){
+                setAgentX(agentX + 15);
+                setCount(count+1)
+                setCurrDirection(1)
             }
+            if (count == 2){
+                setAgentX(agentX - 15);
+                setCount(count+1)
+                setCurrDirection(1)
+            }
+        } 
+        if (currDirection == 1){
+            if (count == 1){
+                setAgentY(agentY + 15);
+                setCount(count+1)
+                setCurrDirection(0)
+            }
+            if (count == 3){
+                setAgentY(agentY - 15);
+                setCount(0)
+                setCurrDirection(0)
+
+            }
+        }
+    }
+
+    const walkingMovement4 = () => {
+        if (currDirection == 0){
+            if (count == 0){
+                setAgentX(agentX + 10)
+                setCount(count + 1)
+            } else if (count == 1){
+                setAgentX(agentX - 10)
+                setCount(0)
+
+            }
+            
+        }
+    }
+
+    const walkingMovement5 = () => {
+        if (currDirection == 0){
+            if (count == 0){
+                setAgentX(agentX + 10);
+                setCount(count+1)
+            }
+           else if (count == 1){
+                setAgentX(agentX + 10);
+                setCount(count+1)
+            } else if (count == 2){
+                setAgentX(agentX - 10);
+                setCount(count+1)
+            } else if (count == 3){
+                setAgentX(agentX - 10);
+                setCount(count+1)
+                setCurrDirection(1)
+            }
+        } else if (currDirection == 1) {
+            if (count == 4){
+                setAgentY(agentY - 15);
+                setCount(count+1)
+            } else if (count == 5){
+                setAgentY(agentY + 15);
+                setCount(count+1)
+                setCurrDirection(0)
+                setCount(0)
+            } 
+            
         }
     }
 
     const checkSpriteCloseby = () => {
         
-       console.log(agentX + "-" + characterX + ">= -100 && " + agentX + "-" + characterX + "<= 100")
+    //    console.log(agentX + "-" + characterX + ">= -100 && " + agentX + "-" + characterX + "<= 100")
         if ((agentX - characterX >= -100) && (agentX - characterX <= 100) ){
-            console.log(agentY + "-" + characterY + ">= -100 && " + agentY + "-" + characterY + "<= 100")
+            // console.log(agentY + "-" + characterY + ">= -100 && " + agentY + "-" + characterY + "<= 100")
             if ((agentY - characterY >= -100) && (agentY - characterY <= 100) ){
-                console.log("Closeby")
+                // console.log("Closeby")
                 return true
             } else {return false}
         } else {return false}
@@ -107,7 +170,7 @@ const Agent = ({name, sprite, startX, startY, movement, characterX, characterY} 
 
     useEffect(() => {
         setTimeout(() => {
-            console.log("Sprite is Closeby: " + checkSpriteCloseby())
+            // console.log("Sprite is Closeby: " + checkSpriteCloseby())
             if (!checkSpriteCloseby()){
             switch (movement){
                 case 1:
@@ -119,9 +182,15 @@ const Agent = ({name, sprite, startX, startY, movement, characterX, characterY} 
                 case 3:
                     walkingMovement3();
                     break;
+                case 4:
+                    walkingMovement4();
+                    break;
+                case 5:
+                    walkingMovement5();
+                    break;
             }
-        }
-        }, 200);
+        } else {}
+        }, 100);
     }, [agentX, agentY, currentKey]);
 
 
