@@ -149,13 +149,21 @@ class Worker:
             )
 
         function_force = "auto"
-
-        completion = openai.ChatCompletion.create(
-            model=self.model,
-            messages=Message.convert_messages(self.memory),
-            functions=function_candidates,
-            function_call=function_force,
-        )
+        completion = None
+        if len(self.functions) > 0:
+            completion = openai.ChatCompletion.create(
+                model=self.model,
+                messages=Message.convert_messages(self.memory),
+                functions=function_candidates,
+                function_call=function_force,
+                max_tokens=500,
+            )
+        else:
+            completion = openai.ChatCompletion.create(
+                model=self.model,
+                messages=Message.convert_messages(self.memory),
+                max_tokens=500,
+            )
         # print(completion)
 
         if "function_call" not in completion.choices[0].message:
@@ -236,6 +244,7 @@ class Worker:
             messages=Message.convert_messages(messages),
             functions=functions,
             function_call=function_call,
+            max_tokens=500,
         )
 
         return json.loads(completion.choices[0].message.function_call.arguments)[

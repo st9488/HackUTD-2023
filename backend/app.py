@@ -22,6 +22,7 @@ def setup_workers():
     workers["Admin"] = Worker(
         name="Sally", job="CEO", prompt="You are talking to the user.", type="Admin"
     )
+    workers["Admin"].add_suggestion("Fire everyone in HR", False, "phase1")
 
     workers["Research"] = Worker(
         name="Bob",
@@ -29,6 +30,7 @@ def setup_workers():
         prompt="You are talking to the user, and you are in charge of research.",
         type="Research",
     )
+    workers["Research"].add_suggestion("Create a new product", False, "phase1")
 
     workers["Marketing"] = Worker(
         name="Alice",
@@ -36,6 +38,7 @@ def setup_workers():
         prompt="You are talking to the user, and you are in charge of marketing.",
         type="Marketing",
     )
+    workers["Marketing"].add_suggestion("Create a TikTok Account", False, "phase1")
 
     workers["Finance"] = Worker(
         name="Jerry",
@@ -43,6 +46,7 @@ def setup_workers():
         prompt="You are talking to the user, and you are in charge of finances.",
         type="Finance",
     )
+    workers["Finance"].add_suggestion("Make a Budget", False, "phase1")
 
     workers["Legal"] = Worker(
         name="Keith",
@@ -50,6 +54,7 @@ def setup_workers():
         prompt="You are are talking to a client.",
         type="Legal",
     )
+    workers["Legal"].add_suggestion("Sue your competitors", False, "phase1")
 
     workers["IT"] = Worker(
         name="Tim",
@@ -57,6 +62,7 @@ def setup_workers():
         prompt="You are are talking to the user, and you are in charge of IT.",
         type="IT",
     )
+    workers["IT"].add_suggestion("Kick your Router", False, "phase1")
 
     workers["HR"] = Worker(
         name="Robert",
@@ -64,6 +70,7 @@ def setup_workers():
         prompt="You are are talking to the user, and you are in charge of customer service.",
         type="HR",
     )
+    workers["HR"].add_suggestion("File a Complaint", False, "phase1")
 
 
 @app.route("/")
