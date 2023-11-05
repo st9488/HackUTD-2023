@@ -3,11 +3,22 @@ from flask import Flask, request
 from flask_cors import CORS
 from worker import Worker, Message, Suggestion
 from typing import Dict, List
+from langchain.embeddings import HuggingFaceBgeEmbeddings
+from langchain.vectorstores import FAISS
+from gnews import GNews
 
 app = Flask(__name__)
 CORS(app)
 
 workers: Dict[str, Worker] = {}
+model_name = "BAAI/bge-small-en"
+model_kwargs = {"device": "cpu"}
+embeddings = HuggingFaceBgeEmbeddings(model_name=model_name, model_kwargs=model_kwargs)
+db = FAISS.load_local(
+    f"C:/Users/Ordin/OneDrive/Documents/GithubProjects/HackUTD-2023/backend/research_chatpgt.faiss",
+    embeddings=embeddings,
+)
+google_news = GNews()
 
 
 @app.before_request
@@ -35,13 +46,37 @@ def setup_workers():
     )
     workers["Research"].add_suggestion("Create a new product", False, "phase1")
 
+    def query_vectordb():
+        """
+        Query the vector database for research paper embeddings.
+        """
+        results = db.max_marginal_relevance_search(
+            "What are some of the best uses of ChatGPT?",
+            k=3,
+        )
+        return json.dumps(results)
+
+    workers["Research"].add_function(query_vectordb)
+
     workers["Marketing"] = Worker(
         name="Alice",
         job="Marketing Manager",
         prompt="You are talking to the user, and you are in charge of marketing.",
         type="Marketing",
     )
-    workers["Marketing"].add_suggestion("Create a TikTok Account", False, "phase1")
+
+    def get_marketing_news():
+        """
+        Get marketing news.
+        """
+        marketing_news = google_news.get_news("marketing")
+        # convert the news to only the titles in a list
+        marketing_news_titles = []
+        for article in marketing_news:
+            marketing_news_titles.append(article["title"])
+        return json.dumps(marketing_news_titles)
+
+    workers["Marketing"].add_function(get_marketing_news)
 
     workers["Finance"] = Worker(
         name="Jerry",
@@ -51,6 +86,19 @@ def setup_workers():
     )
     workers["Finance"].add_suggestion("Make a Budget", False, "phase1")
 
+    def get_finance_news():
+        """
+        Get finance news.
+        """
+        finance_news = google_news.get_news("finance")
+        # convert the news to only the titles in a list
+        finance_news_titles = []
+        for article in finance_news:
+            finance_news_titles.append(article["title"])
+        return json.dumps(finance_news_titles)
+
+    workers["Finance"].add_function(get_finance_news)
+
     workers["Legal"] = Worker(
         name="Keith",
         job="Lawyer",
@@ -58,6 +106,17 @@ def setup_workers():
         type="Legal",
     )
     workers["Legal"].add_suggestion("Sue your competitors", False, "phase1")
+
+    def get_legal_news():
+        """
+        Get legal news.
+        """
+        legal_news = google_news.get_news("legal")
+        # convert the news to only the titles in a list
+        legal_news_titles = []
+        for article in legal_news:
+            legal_news_titles.append(article["title"])
+        return json.dumps(legal_news_titles)
 
     workers["IT"] = Worker(
         name="Tim",
@@ -67,13 +126,23 @@ def setup_workers():
     )
     workers["IT"].add_suggestion("Kick your Router", False, "phase1")
 
+    def get_it_news():
+        """
+        Get it news.
+        """
+        it_news = google_news.get_news("it")
+        # convert the news to only the titles in a list
+        it_news_titles = []
+        for article in it_news:
+            it_news_titles.append(article["title"])
+        return json.dumps(it_news_titles)
+
     workers["HR"] = Worker(
         name="Robert",
         job="HR Manager",
         prompt="You are are talking to the user, and you are in charge of customer service.",
         type="HR",
     )
-    workers["HR"].add_suggestion("File a Complaint", False, "phase1")
 
 
 @app.route("/")
