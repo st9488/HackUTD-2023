@@ -4,10 +4,15 @@ import DialogBox from './components/DialogBox'
 import Agent from './components/Agent'
 import officeBackground from "./assets/Modern_Office_Revamped/OfficeBackground.png";
 
-const height = 500;
-const width = 1000;
+const height = 795;
+const width = 1571;
 
 const modifer = 0.8
+
+interface SpritePageProps {
+  setOnGame: (onGame: boolean) => void;
+}
+
 const SpritePage = () => {
 
   //macbook dimensions: 636px, 1256px
@@ -24,9 +29,10 @@ const SpritePage = () => {
 
   return (
     // make a board that is 16:9 resolution
-    <div className="sprite-page" style={{backgroundColor: 'burlywood', height: 795*modifer, width: 1571*modifer, border: 'solid black', position: 'relative'}}>
-      {speakingWithAgent ? <DialogBox boxWidth={width} boxHeight={height} division={division} setSpeakingWithAgent={setSpeakingWithAgent}/> : null}
-      <Character startX={0} startY={0} currentlySpeaking={speakingWithAgent} setCharacterX={setCharacterX} setCharacterY={setCharacterY}/>
+    <div className="sprite-page" style={{backgroundColor: 'burlywood', height: 795*modifer, width: 1571*modifer, position: 'relative'}}>
+      <img src={officeBackground} style={{width: '100%', height: '100%', position: 'relative'}}/>
+      {speakingWithAgent ? <DialogBox boxWidth={width * modifer} boxHeight={height * modifer} division={division} setSpeakingWithAgent={setSpeakingWithAgent}/> : null}
+      <Character startX={200} startY={600} currentlySpeaking={speakingWithAgent} setCharacterX={setCharacterX} setCharacterY={setCharacterY}/>
       <Agent name="User" sprite={"hi"} startX={100} startY={200} movement={1} characterX={characterX} characterY={characterY}/>
     </div>
   )

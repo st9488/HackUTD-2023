@@ -1,19 +1,16 @@
 import { useState } from 'react'
 import './App.css'
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import SpritePage from './SpritePage';
 import KanbanPage from './kanban/KanbanPage';
 
 function App() {
 
-  return (
+  const [onGame, setOnGame] = useState(true);
 
-    <Router>
-    <Routes>
-      <Route path="/" element={<SpritePage />}></Route>
-      <Route path="/kanban" element={<KanbanPage />} />      
-    </Routes>
-  </Router>
+  return (
+    <>
+      {onGame ? <SpritePage /> : <KanbanPage />}
+    </>
 
   )
 }

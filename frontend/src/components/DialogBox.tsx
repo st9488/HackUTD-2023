@@ -61,9 +61,8 @@ const DialogBox = ({boxWidth, boxHeight, division, setSpeakingWithAgent} : Dialo
 
     return (
         <div 
-        style={{position: 'relative', height: '400px', width: '400px', left: relativeX, top: relativeY, border: 'solid black', backgroundColor: "green"}}
+        style={{position: 'absolute', height: '400px', width: '400px', left: relativeX, top: relativeY, border: 'solid black', backgroundColor: "green"}}
         >
-            <div style={{position: 'relative', height: '150px', width: '400px', left: 0, top: 0, backgroundColor: 'black'}}/>
             {displayElement}
         </div>
     );

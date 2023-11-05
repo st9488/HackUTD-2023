@@ -8,7 +8,6 @@ interface CharacterProps {
     currentlySpeaking: boolean;
     setCharacterX: (x : number) => void;
     setCharacterY: (y : number) => void;
-    currentlySpeaking: boolean;
 }
 
 const modifier = 0.8
