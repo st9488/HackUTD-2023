@@ -20,8 +20,8 @@ def user_speak_example():
 
     lawyer.add_function(get_weather)
 
-    lawyer.receive_message("Hello, do you know what the weather is like?")
-    # lawyer.receive_message("My cat is suing me, what should I do?")
+    # lawyer.receive_message("Hello, do you know what the weather is like?")
+    lawyer.receive_message("My cat is suing me, what should I do?")
 
     lawyer.next_message()
 
@@ -48,10 +48,10 @@ def generate_action_item():
 
 
 if __name__ == "__main__":
-    # user_speak_example()
+    user_speak_example()
     # generate_action_item()
-    print(
-        Message.convert_messages(
-            Worker("Jerry", "Lawyer", "You are are talking to a client.").memory
-        )
-    )
+    # print(
+    #     Message.convert_messages(
+    #         Worker("Jerry", "Lawyer", "You are are talking to a client.").memory
+    #     )
+    # )

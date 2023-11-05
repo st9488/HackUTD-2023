@@ -116,4 +116,38 @@ def get_suggestions():
     suggestions: List[Suggestion] = []
     for worker in workers.values():
         suggestions.extend(worker.suggestions)
-    return Suggestion.serialize_list(suggestionList=suggestions)
+    output = Suggestion.serialize_list(suggestionList=suggestions)
+    return output
+
+
+@app.route("/update_suggestion", methods=["POST"])
+def update_suggestion():
+    suggestion = request.form["suggestion"]
+    newcompleted = request.form["newcompleted"]
+    newphase = request.form["newphase"]
+    newsuggestion = request.form["newsuggestion"]
+
+    # go through workers and find the suggestion
+    for worker in workers.values():
+        for worker_suggestion in worker.suggestions:
+            if worker_suggestion.message == suggestion:
+                worker_suggestion.completed = newcompleted
+                worker_suggestion.phase = newphase
+                worker_suggestion.message = newsuggestion
+                return "OK"
+
+    return "505"
+
+
+@app.route("/delete_suggestion", methods=["POST"])
+def delete_suggestion():
+    suggestion = request.form["suggestion"]
+
+    # go through workers and find the suggestion
+    for worker in workers.values():
+        for worker_suggestion in worker.suggestions:
+            if worker_suggestion.message == suggestion:
+                worker.suggestions.remove(worker_suggestion)
+                return "OK"
+
+    return "505"
