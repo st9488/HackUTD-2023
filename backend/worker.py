@@ -233,7 +233,7 @@ class Worker:
         messages = [
             Message(
                 "system",
-                "You are a function that returns an action item from a given message. The user will send you a message, and you should output an action item using the output_action function. Even if you feel like there is no action item, you should still output something. For example, if the user says 'I am sad', you could output 'Cheer up!'",
+                "You are a function that returns an action item from a given message. The user will send you a message, and you should output an action item using the output_action function. Even if you feel like there is no action item, you should still output something. For example, if the user says 'I am sad', you could output 'Cheer up!'. Do not output more than a sentence.",
             ),
             Message("user", message),
         ]
@@ -261,7 +261,7 @@ class Worker:
             messages=Message.convert_messages(messages),
             functions=functions,
             function_call=function_call,
-            max_tokens=TOKEN_LIMIT,
+            max_tokens=TOKEN_LIMIT // 6,
         )
 
         return json.loads(completion.choices[0].message.function_call.arguments)[

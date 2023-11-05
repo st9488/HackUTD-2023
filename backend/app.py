@@ -47,17 +47,20 @@ def setup_workers():
     )
     workers["Research"].add_suggestion("Create a new product", False, "phase1")
 
-    def query_vectordb():
+    def read_about_latest_research_on_chatgpt():
         """
-        Query the vector database for research paper embeddings.
+        Read about the latest research on ChatGPT.
         """
         results = db.max_marginal_relevance_search(
             "What are some of the best uses of ChatGPT?",
             k=3,
         )
-        return json.dumps(results)
+        list_of_results = []
+        for result in results:
+            list_of_results.append(result.__repr__())
+        return json.dumps(list_of_results)
 
-    workers["Research"].add_function(query_vectordb)
+    workers["Research"].add_function(read_about_latest_research_on_chatgpt)
 
     workers["Marketing"] = Worker(
         name="Alice",
