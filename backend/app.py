@@ -99,6 +99,7 @@ def setup_workers():
 
     workers["Finance"].add_function(get_finance_news)
 
+    # note: this lawyer is not a real lawyer, and is not giving legal advice
     workers["Legal"] = Worker(
         name="Keith",
         job="Lawyer",
