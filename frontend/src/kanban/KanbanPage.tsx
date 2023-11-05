@@ -27,49 +27,7 @@ interface KanbanBoardProps {
   setColumns: (columns: Column[]) => void;
 }
 
-<<<<<<< HEAD
-const defaultTasks: Task[] = [
-  {
-    id: "1",
-    columnId: "phase1",
-    content: "Task 1: blah blah blah",
-    completed: false,
-  },
-  {
-    id: "2",
-    columnId: "phase1",
-    content:
-      "Task 2: blah blah blah",
-      completed: false,
-  },
-  {
-    id: "3",
-    columnId: "phase2",
-    content: "Task 3: blah blah blah",
-    completed: false,
-  },
-  {
-    id: "4",
-    columnId: "phase2",
-    content: "Task 4: blah blah blah",
-    completed: false,
-  },
-  {
-    id: "5",
-    columnId: "phase3",
-    content: "Task 5: blah blah blah ",
-    completed: false,
-  },
-  {
-    id: "6",
-    columnId: "phase4",
-    content: "Task 6: blah blah blah",
-    completed: false,
-  },
-];
-=======
 function KanbanBoard({columns, tasks, setTasks, setColumns}: KanbanBoardProps) {
->>>>>>> bc17abeac36aa8bf010a539c46e2395b34b9e085
 
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 

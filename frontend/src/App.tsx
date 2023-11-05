@@ -7,15 +7,12 @@ import getTasks from './api/get_tasks';
 function App() {
 
   const [onGame, setOnGame] = useState(false);
-<<<<<<< HEAD
-=======
   const [tasks, setTasks] = useState([]);
   const [columns, setColumns] = useState([]);
 
   useEffect(() => {
     getTasks(setTasks, setColumns);
   }, []);
->>>>>>> bc17abeac36aa8bf010a539c46e2395b34b9e085
 
   return (
     <>
