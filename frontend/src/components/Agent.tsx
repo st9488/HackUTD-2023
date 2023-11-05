@@ -12,8 +12,7 @@ interface CharacterProps {
     movement: number;
     characterX: number;
     characterY: number;
-    // count: number;
-    // currDirection: number;
+    setCurrentAgent: (agent: string) => void;
 }
 
 const modifier = 0.8
@@ -28,23 +27,19 @@ const walkableWidth = width + userXOffset;
 const spriteCloseby = 0
 
 
-const Agent = ({name, sprite, startX, startY, movement, characterX, characterY} : CharacterProps) => {
+const Agent = ({name, sprite, startX, startY, movement, characterX, characterY, setCurrentAgent} : CharacterProps) => {
 
     const [agentX, setAgentX] = useState(startX + userXOffset);
     const [agentY, setAgentY] = useState(startY + userYOffset);
     const [direction, setDirection] = useState('forward');
-    const [currentKey, setCurrentKey] = useState('');
     const [count, setCount] = useState(0);
-    const [currDirection, setCurrDirection] = useState(0)
- 
+    const [currDirection, setCurrDirection] = useState(0);
+    const [currentlyAvailable, setCurrentlyAvailable] = useState(false);
     
     const userImage = directionImages[directions.indexOf(direction)];
 
-
-
     const walkingMovement1 = () => {
         if (currDirection == 0){
-            console.log(name + " count:" + count + " currDirection:" + currDirection)
             setAgentX(agentX + 10);
             setCount(count+1)
             if (count >= 4){
@@ -52,7 +47,6 @@ const Agent = ({name, sprite, startX, startY, movement, characterX, characterY} 
                 setCount(0)
             } 
         } else if (currDirection == 1) {
-            console.log(name + " count:" + count + " currDirection:" + currDirection)
             setAgentX(agentX - 10);
             setCount(count+1)
             if (count >= 4){
@@ -64,7 +58,6 @@ const Agent = ({name, sprite, startX, startY, movement, characterX, characterY} 
 
     const walkingMovement2 = () => {
         if (currDirection == 0){
-            console.log(name + " count:" + count + " currDirection:" + currDirection)
             setAgentY(agentY + 10);
             setCount(count+1)
             if (count == 2){
@@ -72,7 +65,6 @@ const Agent = ({name, sprite, startX, startY, movement, characterX, characterY} 
                 setCount(0)
             } 
         } else if (currDirection == 1) {
-            console.log(name + " count:" + count + " currDirection:" + currDirection)
             setAgentY(agentY - 10);
             setCount(count+1)
             if (count == 2){
@@ -170,7 +162,7 @@ const Agent = ({name, sprite, startX, startY, movement, characterX, characterY} 
 
     useEffect(() => {
         setTimeout(() => {
-            // console.log("Sprite is Closeby: " + checkSpriteCloseby())
+
             if (!checkSpriteCloseby()){
             switch (movement){
                 case 1:
@@ -189,9 +181,19 @@ const Agent = ({name, sprite, startX, startY, movement, characterX, characterY} 
                     walkingMovement5();
                     break;
             }
-        } else {}
+
+            if (currentlyAvailable){
+                setCurrentlyAvailable(false);
+                setCurrentAgent("");
+            }            
+        } else {
+            if (!currentlyAvailable) {
+                setCurrentAgent(name);
+                setCurrentlyAvailable(true);
+            }
+        }
         }, 100);
-    }, [agentX, agentY, currentKey]);
+    }, [characterX, characterY, agentX, agentY]);
 
 
     return (

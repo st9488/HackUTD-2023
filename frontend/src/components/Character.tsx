@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import user_forward from '../assets/User/User_Forward.png';
 import user_backward from '../assets/User/User_Backwards.png';
+import { set } from 'immer/dist/internal';
 
 interface CharacterProps {
     startX: number;
@@ -8,6 +9,7 @@ interface CharacterProps {
     currentlySpeaking: boolean;
     setCharacterX: (x : number) => void;
     setCharacterY: (y : number) => void;
+    setSpeakingWithAgent: (speakingWithAgent: boolean) => void;
 }
 
 const modifier = 0.8
@@ -20,7 +22,7 @@ const width = 1570*modifier;
 const walkableHeight = height + userYOffset;
 const walkableWidth = width + userXOffset;
 
-const Character = ({startX, startY, currentlySpeaking, setCharacterX, setCharacterY} : CharacterProps) => {
+const Character = ({startX, startY, currentlySpeaking, setCharacterX, setCharacterY, setSpeakingWithAgent} : CharacterProps) => {
 
     const [x, setX] = useState(startX + userXOffset);
     const [y, setY] = useState(startY + userYOffset);
@@ -48,6 +50,8 @@ const Character = ({startX, startY, currentlySpeaking, setCharacterX, setCharact
                     setDirection('right');
                     if (x + 8 < walkableWidth)
                         setX(x + 8);
+                } else if (currentKey === 'Space') {
+                    setSpeakingWithAgent(true);
                 }
             }
             setCharacterY(y);
@@ -68,6 +72,9 @@ const Character = ({startX, startY, currentlySpeaking, setCharacterX, setCharact
                 break;
             case 'ArrowRight':
                 setCurrentKey('ArrowRight');
+                break;
+            case ' ':
+                setCurrentKey('Space');
         }
     };
 
@@ -90,6 +97,11 @@ const Character = ({startX, startY, currentlySpeaking, setCharacterX, setCharact
                 break;
             case 'ArrowRight':
                 if (currentKey === 'ArrowRight') {
+                    setCurrentKey('');
+                }
+                break;
+            case 'Space':
+                if (currentKey === 'Space') {
                     setCurrentKey('');
                 }
                 break;
