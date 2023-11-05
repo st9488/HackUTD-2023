@@ -1,8 +1,8 @@
 import json
 from flask import Flask, request
 from flask_cors import CORS
-from worker import Worker, Message
-from typing import Dict
+from worker import Worker, Message, Suggestion
+from typing import Dict, List
 
 app = Flask(__name__)
 CORS(app)
@@ -10,11 +10,14 @@ CORS(app)
 workers: Dict[str, Worker] = {}
 
 
-@app.before_first_request
+@app.before_request
 def setup_workers():
     """
     Setup the workers.
     """
+
+    if len(workers) > 0:
+        return
 
     workers["Admin"] = Worker(
         name="Sally", job="CEO", prompt="You are talking to the user.", type="Admin"
@@ -87,3 +90,23 @@ def send_message(worker_type):
 @app.route("/get_worker_memory/<worker_type>", methods=["GET"])
 def get_worker_memory(worker_type):
     return Message.convert_messages(workers[worker_type].memory)
+
+
+@app.route("/generate_suggestion/<worker_type>", methods=["POST"])
+def generate_suggestion(worker_type):
+    """
+    Generate a suggestion for a worker.
+    """
+    content = request.form["message"]
+    workers[worker_type].add_suggestion(
+        workers[worker_type].generate_action_from_message(content), False, "phase1"
+    )
+    return "OK"
+
+
+@app.route("/get_suggestions", methods=["GET"])
+def get_suggestions():
+    suggestions: List[Suggestion] = []
+    for worker in workers.values():
+        suggestions.extend(worker.suggestions)
+    return Suggestion.serialize_list(suggestionList=suggestions)

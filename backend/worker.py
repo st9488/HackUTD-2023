@@ -30,6 +30,23 @@ class Suggestion:
         self.completed = completed
         self.phase = phase
 
+    def serializer(self):
+        """
+        Converts a suggestion object to a dictionary.
+        """
+        return {
+            "message": self.message,
+            "completed": self.completed,
+            "phase": self.phase,
+        }
+
+    @staticmethod
+    def serialize_list(suggestionList):
+        """
+        Converts a list of suggestions to a list of dictionaries.
+        """
+        return [Suggestion.serializer(suggestion) for suggestion in suggestionList]
+
 
 class Message:
     def __init__(self, role: str, message: str, function_name: str = None):
