@@ -5,7 +5,7 @@ import KanbanPage from './kanban/KanbanPage';
 
 function App() {
 
-  const [onGame, setOnGame] = useState(true);
+  const [onGame, setOnGame] = useState(false);
 
   return (
     <>

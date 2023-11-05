@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { BsFillTrash3Fill } from 'react-icons/bs';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
+import { GrUpdate } from 'react-icons/gr';
 import { Id, Task } from "../kanban/types";
 import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import { Button, Container } from "@mui/material";
 
 interface Props {
@@ -11,16 +12,30 @@ interface Props {
   updateTask: (id: Id, content: string) => void;
 }
 
+function toggleTaskCompletion(task: Task): Task {
+  return {
+    ...task,
+    completed: !task.completed,
+  };
+}
+
 function KanbanCard({ task, deleteTask, updateTask }: Props) {
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(true);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [currentTask, setCurrentTask] = useState(task);
+
+  const handleButtonClick = () => {
+    setIsButtonClicked(!isButtonClicked);
+    const updatedTask = toggleTaskCompletion(currentTask);
+    setCurrentTask(updatedTask);
+    console.log('Task marked as completed:', updatedTask);
+  };
 
   const {
     setNodeRef,
     attributes,
     listeners,
-    transform,
-    transition,
     isDragging,
   } = useSortable({
     id: task.id,
@@ -32,12 +47,11 @@ function KanbanCard({ task, deleteTask, updateTask }: Props) {
   });
 
   const style = {
-    backgroundColor: 'white',
+    backgroundColor: isButtonClicked ? '#d9ead3' : 'white',
     borderRadius: 8,
     padding: 10,
     margin: 10,
-    // transition,
-    // transform: CSS.Transform.toString(transform),
+    boxShadow: '2px 2px 2px #D0D0D0',
   };
 
   const useStyle = {
@@ -47,11 +61,13 @@ function KanbanCard({ task, deleteTask, updateTask }: Props) {
         justifyContent: 'center',
         textAlign: 'center',
         padding: '10px',
+        margin: '5px',
+        boxShadow: '1px 1px 1px #D0D0D0',
         
       "&:hover": {
         backgroundColor: "#A9DAFF !important",
         color: 'black',
-        boxShadow: "none !important",
+        boxShadow: "'1px 1px 1px #D0D0D0' !important",
       },
       "&:active": {
         boxShadow: "none !important",
@@ -70,10 +86,6 @@ function KanbanCard({ task, deleteTask, updateTask }: Props) {
       <div
         ref={setNodeRef}
         style={style}
-      //   className="
-      //   opacity-30
-      // bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-rose-500  cursor-grab relative
-      // "
       />
     );
   }
@@ -85,13 +97,8 @@ function KanbanCard({ task, deleteTask, updateTask }: Props) {
         style={style}
         {...attributes}
         {...listeners}
-        // className="bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative"
       >
         <textarea
-        //   className="
-        // h-[90%]
-        // w-full resize-none border-none rounded bg-transparent text-white focus:outline-none
-        // "
           value={task.content}
           autoFocus
           placeholder="Task content here"
@@ -113,8 +120,7 @@ function KanbanCard({ task, deleteTask, updateTask }: Props) {
       style={style}
       {...attributes}
       {...listeners}
-      onClick={toggleEditMode}
-      // className="bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative task"
+      onDoubleClick={toggleEditMode}
       onMouseEnter={() => {
         setMouseIsOver(true);
       }}
@@ -123,23 +129,31 @@ function KanbanCard({ task, deleteTask, updateTask }: Props) {
       }}
     >
       <p 
-      // className="my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap"
       >
         {task.content}
       </p>
 
       {mouseIsOver && (
+        <Container>
+          <Button sx={useStyle.Button}
+          onClick={() => {
+            handleButtonClick()
+          }}
+        >
+          <AiOutlineCheckCircle />
+        </Button>
         <Button sx={useStyle.Button}
           onClick={() => {
             deleteTask(task.id);
           }}
-          // className="stroke-white absolute right-4 top-1/2 -translate-y-1/2 bg-columnBackgroundColor p-2 rounded opacity-60 hover:opacity-100"
         >
           <BsFillTrash3Fill />
         </Button>
+        </Container>
       )}
     </div>
   );
 }
 
 export default KanbanCard;
+

@@ -52,32 +52,38 @@ const defaultTasks: Task[] = [
     id: "1",
     columnId: "phase1",
     content: "Task 1: blah blah blah",
+    completed: false,
   },
   {
     id: "2",
     columnId: "phase1",
     content:
       "Task 2: blah blah blah",
+      completed: false,
   },
   {
     id: "3",
     columnId: "phase2",
     content: "Task 3: blah blah blah",
+    completed: false,
   },
   {
     id: "4",
     columnId: "phase2",
     content: "Task 4: blah blah blah",
+    completed: false,
   },
   {
     id: "5",
     columnId: "phase3",
     content: "Task 5: blah blah blah ",
+    completed: false,
   },
   {
     id: "6",
     columnId: "phase4",
     content: "Task 6: blah blah blah",
+    completed: false,
   },
 ];
 
@@ -106,11 +112,13 @@ function KanbanBoard() {
         justifyContent: 'center',
         textAlign: 'center',
         padding: '10px',
+        boxShadow: '2px 2px 2px #D0D0D0',
+        width: '30%',
         
       "&:hover": {
         backgroundColor: "#A9DAFF !important",
         color: 'black',
-        boxShadow: "none !important",
+        boxShadow: "'2px 2px 2px #D0D0D0' !important",
       },
       "&:active": {
         boxShadow: "none !important",
@@ -127,7 +135,7 @@ function KanbanBoard() {
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
       >
-        <Grid container spacing={5} style={{display: 'flex', justifyContent: 'center', alignContent: 'center'}}>
+        <Grid container spacing={0} style={{display: 'flex', justifyContent: 'center', alignContent: 'center', marginBottom: 10}}>
             <SortableContext items={columnsId}>
               {columns.map((col) => (
                 <KanbanLane
@@ -149,7 +157,7 @@ function KanbanBoard() {
             }}
           >
             <GrAddCircle style={{paddingRight: 10}}/>
-            Add Phase
+            Add New Phase
           </Button>
 
         {createPortal(
@@ -186,6 +194,7 @@ function KanbanBoard() {
       id: generateId(),
       columnId,
       content: `Task ${tasks.length + 1}`,
+      completed: false
     };
 
     setTasks([...tasks, newTask]);
