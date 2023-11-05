@@ -6,18 +6,21 @@ interface CharacterProps {
     startX: number;
     startY: number;
     currentlySpeaking: boolean;
+    setCharacterX: (x : number) => void;
+    setCharacterY: (y : number) => void;
 }
 
+const modifier = 0.8
 const directions = ['forward', 'backward', 'left', 'right'];
 const directionImages = [user_forward, user_backward, user_backward, user_backward];
-const userYOffset = -60;
-const userXOffset = 0;
-const height = 500;
-const width = 1000;
-const walkableHeight = height - 144;
-const walkableWidth = width - 50;
+const userYOffset = -144;
+const userXOffset = -50;
+const height = 796*modifier;
+const width = 1570*modifier;
+const walkableHeight = height + userYOffset;
+const walkableWidth = width + userXOffset;
 
-const Character = ({startX, startY, currentlySpeaking} : CharacterProps) => {
+const Character = ({startX, startY, currentlySpeaking, setCharacterX, setCharacterY} : CharacterProps) => {
 
     const [x, setX] = useState(startX + userXOffset);
     const [y, setY] = useState(startY + userYOffset);
@@ -47,6 +50,8 @@ const Character = ({startX, startY, currentlySpeaking} : CharacterProps) => {
                         setX(x + 8);
                 }
             }
+            setCharacterY(y);
+            setCharacterX(x)
         }, 10);
     }, [x, y, currentKey]);
 
