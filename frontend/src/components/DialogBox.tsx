@@ -9,7 +9,7 @@ interface DialogBoxProps {
     boxWidth: number;
     boxHeight: number;
     division: string
-    kanbanData: any;
+    setOnGame: (onGame: boolean) => void;
     setSpeakingWithAgent: (speakingWithAgent: boolean) => void;
 }
 
@@ -17,7 +17,7 @@ const dialogWidth = 400;
 const dialogHeight = 400;
 const agents : {[key: string]: string} = {"Marketing": "Alice", "Admin": "Sally", "Research": "Bob", "Finance": "Jerry", "Legal": "Keith", "IT": "Tim", "HR": "Robert"}
 
-const DialogBox = ({boxWidth, boxHeight, division, kanbanData, setSpeakingWithAgent} : DialogBoxProps) => {
+const DialogBox = ({boxWidth, boxHeight, division, setOnGame, setSpeakingWithAgent} : DialogBoxProps) => {
 
     const useStyle = {
         Button: {
@@ -128,8 +128,9 @@ const DialogBox = ({boxWidth, boxHeight, division, kanbanData, setSpeakingWithAg
             <div style={{display: 'flex', flexDirection: 'column', margin: 25}}>
             <Button sx={useStyle.ThirdButton} onClick={() => setConversationState(1)}>Ask a Follow Up</Button>
             <Button sx={useStyle.ThirdButton} onClick={() => {
-                addAction(userInput, division);
-                setSpeakingWithAgent(false)
+                addAction(agentInput, division);
+                setSpeakingWithAgent(false);
+                setOnGame(false);
                 }}>Add Action Item</Button>
             <Button sx={useStyle.ThirdButton} onClick={() => setSpeakingWithAgent(false)}>End Conversation</Button>
             </div>

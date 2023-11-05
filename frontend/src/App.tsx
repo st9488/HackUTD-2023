@@ -33,9 +33,11 @@ function App() {
   const [columns, setColumns] = useState([]);
   let text = (onGame ? "Kanban Board" : "Start Game")
 
+  console.log(onGame)
+
   useEffect(() => {
     getTasks(setTasks, setColumns);
-  }, []);
+  }, [onGame]);
 
   return (
     <>
