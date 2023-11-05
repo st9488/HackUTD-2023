@@ -19,6 +19,7 @@ import KanbanCard from "./KanbanCard";
 import {Container, Grid} from '@mui/material';
 import { Button } from "@mui/material";
 import setColumn from "../api/setColumn";
+import backgroundO from "../kanban/KanbanBackground2.png";
 
 interface KanbanBoardProps {
   columns: Column[];
@@ -33,6 +34,7 @@ function KanbanBoard({columns, tasks, setTasks, setColumns}: KanbanBoardProps) {
 
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const modifer = 0.8
 
   useEffect(() => {}, [columns, tasks])
 
@@ -46,16 +48,16 @@ function KanbanBoard({columns, tasks, setTasks, setColumns}: KanbanBoardProps) {
 
   const useStyle = {
     Button: {
-        backgroundColor: '#E5F4FF',
+        backgroundColor: '#eee4f7',
         color: 'black',
         justifyContent: 'center',
         textAlign: 'center',
         padding: '10px',
         boxShadow: '2px 2px 2px #D0D0D0',
-        width: '30%',
+        width: '40%',
         
       "&:hover": {
-        backgroundColor: "#A9DAFF !important",
+        backgroundColor: "#dbbff4 !important",
         color: 'black',
         boxShadow: "'2px 2px 2px #D0D0D0' !important",
       },
@@ -67,14 +69,14 @@ function KanbanBoard({columns, tasks, setTasks, setColumns}: KanbanBoardProps) {
   };
 
   return (
-    // <Container style={{display: 'flex', justifyContent: 'center', alignContent: 'center', flexDirection: 'column', margin: 10}}>
+    <Container className="kanbanContainer" style={{background: `url(${backgroundO})`, width: 1571*modifer, zIndex: -999, height: 795*modifer}}>
       <DndContext
         sensors={sensors}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
       >
-        <Grid container spacing={0} style={{display: 'flex', justifyContent: 'center', alignContent: 'center', marginBottom: 10}}>
+        <Grid container spacing={0} fixed style={{display: 'flex', justifyContent: 'center', alignContent: 'center', marginBottom: 10}}>
             <SortableContext items={columnsId}>
               {columns.map((col) => (
                 <KanbanLane
@@ -125,7 +127,7 @@ function KanbanBoard({columns, tasks, setTasks, setColumns}: KanbanBoardProps) {
           document.body
         )}
       </DndContext>
-    // </Container>
+    </Container>
   );
 
   function createTask(columnId: Id) {
