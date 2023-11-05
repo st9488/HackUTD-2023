@@ -120,17 +120,16 @@ function KanbanBoard() {
   };
 
   return (
-    <Container>
+    // <Container style={{display: 'flex', justifyContent: 'center', alignContent: 'center', flexDirection: 'column', margin: 10}}>
       <DndContext
         sensors={sensors}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
       >
-        <Grid container spacing={10} style={{display: 'flex', justifyContent: 'center'}}>
+        <Grid container spacing={5} style={{display: 'flex', justifyContent: 'center', alignContent: 'center'}}>
             <SortableContext items={columnsId}>
               {columns.map((col) => (
-                <div style={{paddingRight: 20}}>
                 <KanbanLane
                   key={col.id}
                   column={col}
@@ -141,12 +140,9 @@ function KanbanBoard() {
                   updateTask={updateTask}
                   tasks={tasks.filter((task) => task.columnId === col.id)}
                 /> 
-                </div>
               ))}
             </SortableContext>
           </Grid>
-          <div style={{padding: 10, }}>
-          </div>
           <Button sx={useStyle.Button}
             onClick={() => {
               createNewColumn();
@@ -182,7 +178,7 @@ function KanbanBoard() {
           document.body
         )}
       </DndContext>
-    </Container>
+    // </Container>
   );
 
   function createTask(columnId: Id) {

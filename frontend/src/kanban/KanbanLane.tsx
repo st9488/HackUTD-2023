@@ -58,6 +58,7 @@ function KanbanLane({
         justifyContent: 'center',
         textAlign: 'center',
         padding: '10px',
+        margin: 1,
         
       "&:hover": {
         backgroundColor: "#A9DAFF !important",
@@ -88,6 +89,7 @@ function KanbanLane({
     borderRadius: 4,
     justifyContent: 'center',
     padding: 15,
+    margin: 15,
     // transition,
     // transform: CSS.Transform.toString(transform),
   };
@@ -222,7 +224,6 @@ function KanbanLane({
               deleteTask={deleteTask}
               updateTask={updateTask}
             />
-
           ))}
         </SortableContext>
       </div>

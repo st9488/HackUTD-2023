@@ -35,6 +35,7 @@ function KanbanCard({ task, deleteTask, updateTask }: Props) {
     backgroundColor: 'white',
     borderRadius: 8,
     padding: 10,
+    margin: 10,
     // transition,
     // transform: CSS.Transform.toString(transform),
   };
