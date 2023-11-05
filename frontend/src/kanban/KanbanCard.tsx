@@ -5,6 +5,7 @@ import { GrUpdate } from 'react-icons/gr';
 import { Id, Task } from "../kanban/types";
 import { useSortable } from "@dnd-kit/sortable";
 import { Button, Container } from "@mui/material";
+import setCompleted from "../api/set_completed";
 
 interface Props {
   task: Task;
@@ -26,6 +27,7 @@ function KanbanCard({ task, deleteTask, updateTask }: Props) {
   const [currentTask, setCurrentTask] = useState(task);
 
   const handleButtonClick = () => {
+    setCompleted(currentTask.content, !isButtonClicked, currentTask.columnId.toString());
     setIsButtonClicked(!isButtonClicked);
     const updatedTask = toggleTaskCompletion(currentTask);
     setCurrentTask(updatedTask);

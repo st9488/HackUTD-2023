@@ -14,6 +14,7 @@ interface CharacterProps {
     characterX: number;
     characterY: number;
     forward: string;
+    speakingWithAgent: boolean;
     setCurrentAgent: (agent: string) => void;
 }
 
@@ -28,7 +29,7 @@ const walkableHeight = height + userYOffset;
 const walkableWidth = width + userXOffset;
 const spriteCloseby = 0
 
-const Agent = ({name, sprite, startX, startY, movement, characterX, characterY, setCurrentAgent, forward} : CharacterProps) => {
+const Agent = ({name, sprite, startX, startY, movement, characterX, characterY, speakingWithAgent, setCurrentAgent, forward} : CharacterProps) => {
 
     const [agentX, setAgentX] = useState(startX + userXOffset);
     const [agentY, setAgentY] = useState(startY + userYOffset);
@@ -163,35 +164,40 @@ const Agent = ({name, sprite, startX, startY, movement, characterX, characterY, 
 
     useEffect(() => {
         setTimeout(() => {
+            console.log(speakingWithAgent)
+            if (!checkSpriteCloseby() && !speakingWithAgent) {
+                switch (movement){
+                    case 1:
+                        walkingMovement1();
+                        break;
+                    case 2:
+                        walkingMovement2();
+                        break;
+                    case 3:
+                        walkingMovement3();
+                        break;
+                    case 4:
+                        walkingMovement4();
+                        break;
+                    case 5:
+                        walkingMovement5();
+                        break;
+                }
 
-            if (!checkSpriteCloseby()){
-            switch (movement){
-                case 1:
-                    walkingMovement1();
-                    break;
-                case 2:
-                    walkingMovement2();
-                    break;
-                case 3:
-                    walkingMovement3();
-                    break;
-                case 4:
-                    walkingMovement4();
-                    break;
-                case 5:
-                    walkingMovement5();
-                    break;
+                if (currentlyAvailable){
+                    setCurrentlyAvailable(false);
+                    setCurrentAgent("");
+                }            
+            } else {
+                if (!currentlyAvailable) {
+                    setCurrentAgent(name);
+                    setCurrentlyAvailable(true);
+                }
             }
             if (currentlyAvailable){
                 setCurrentlyAvailable(false);
                 setCurrentAgent("");
             }            
-        } else {
-            if (!currentlyAvailable) {
-                setCurrentAgent(name);
-                setCurrentlyAvailable(true);
-            }
-        }
         }, 150);
     }, [characterX, characterY, agentX, agentY]);
 

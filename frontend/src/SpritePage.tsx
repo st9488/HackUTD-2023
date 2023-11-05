@@ -50,13 +50,13 @@ const SpritePage = ({setOnGame, setKanbanData}: SpritePageProps) => {
       <img src={officeBackground} style={{width: '100%', height: '100%', position: 'relative'}}/>
       {speakingWithAgent ? <DialogBox boxWidth={width * modifer} boxHeight={height * modifer} division={division} setSpeakingWithAgent={setSpeakingWithAgent}/> : null}
       <Character startX={100} startY={650} currentlySpeaking={speakingWithAgent} setCharacterX={setCharacterX} setCharacterY={setCharacterY} setSpeakingWithAgent={setSpeakingWithAgent}/>
-      <Agent name="Research" sprite={"hi"} startX={100} startY={200} movement={1} characterX={characterX} characterY={characterY} setCurrentAgent={setCurrentAgent} forward={agent1}/>
-      <Agent name="Finance" sprite={"hi"} startX={550} startY={150} movement={2} characterX={characterX} characterY={characterY} setCurrentAgent={setCurrentAgent} forward={agent2}/>
-      <Agent name="HR" sprite={"hi"} startX={1125} startY={200} movement={3} characterX={characterX} characterY={characterY} setCurrentAgent={setCurrentAgent} forward={agent3}/>
-      <Agent name="Legal" sprite={"hi"} startX={750} startY={160} movement={1} characterX={characterX} characterY={characterY} setCurrentAgent={setCurrentAgent} forward={agent4}/>
-      <Agent name="Marketing" sprite={"hi"} startX={600} startY={530} movement={5} characterX={characterX} characterY={characterY} setCurrentAgent={setCurrentAgent} forward={agent5}/>
-      <Agent name="IT" sprite={"hi"} startX={975} startY={510} movement={2} characterX={characterX} characterY={characterY} setCurrentAgent={setCurrentAgent} forward={agent6}/>
-      <Agent name="Admin" sprite={"hi"} startX={230} startY={380} movement={4} characterX={characterX} characterY={characterY} setCurrentAgent={setCurrentAgent} forward={agent7}/>
+      <Agent name="Research" sprite={"hi"} startX={100} startY={200} movement={1} characterX={characterX} characterY={characterY} speakingWithAgent={speakingWithAgent} setCurrentAgent={setCurrentAgent} forward={agent1}/>
+      <Agent name="Finance" sprite={"hi"} startX={550} startY={150} movement={2} characterX={characterX} characterY={characterY} speakingWithAgent={speakingWithAgent} setCurrentAgent={setCurrentAgent} forward={agent2}/>
+      <Agent name="HR" sprite={"hi"} startX={1125} startY={200} movement={3} characterX={characterX} characterY={characterY} speakingWithAgent={speakingWithAgent} setCurrentAgent={setCurrentAgent} forward={agent3}/>
+      <Agent name="Legal" sprite={"hi"} startX={750} startY={160} movement={1} characterX={characterX} characterY={characterY} speakingWithAgent={speakingWithAgent} setCurrentAgent={setCurrentAgent} forward={agent4}/>
+      <Agent name="Marketing" sprite={"hi"} startX={600} startY={530} movement={5} characterX={characterX} characterY={characterY} speakingWithAgent={speakingWithAgent} setCurrentAgent={setCurrentAgent} forward={agent5}/>
+      <Agent name="IT" sprite={"hi"} startX={975} startY={510} movement={2} characterX={characterX} characterY={characterY} speakingWithAgent={speakingWithAgent} setCurrentAgent={setCurrentAgent} forward={agent6}/>
+      <Agent name="Admin" sprite={"hi"} startX={230} startY={380} movement={4} characterX={characterX} characterY={characterY} speakingWithAgent={speakingWithAgent} setCurrentAgent={setCurrentAgent} forward={agent7}/>
     </div>
   )
 
